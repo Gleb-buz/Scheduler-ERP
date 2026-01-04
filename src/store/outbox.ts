@@ -1,5 +1,5 @@
 import { writeFocusDate, writeMetric, writeSettings, writeTaskUpsert, writeWorklog } from "@/api/endpoints";
-import { ApiAck } from "@/api/types";
+import { ApiAck, Task, WorklogEntry, MetricEntry, Settings } from "@/api/types";
 import { set, get } from "idb-keyval";
 import { create } from "zustand";
 
@@ -46,15 +46,15 @@ async function sendCommand(item: OutboxItem): Promise<ApiAck> {
   const payload = withMeta(item.payload);
   switch (item.type) {
     case "task_upsert":
-      return writeTaskUpsert(payload);
+      return writeTaskUpsert(payload as Partial<Task>);
     case "worklog_append":
-      return writeWorklog(payload);
+      return writeWorklog(payload as Partial<WorklogEntry>);
     case "set_focusdate":
-      return writeFocusDate(payload.focusDate ?? payload.focus_date ?? payload.focus_date ?? "");
+      return writeFocusDate((payload.focusDate ?? payload.focus_date ?? payload.focus_date ?? "") as string);
     case "metric_append":
-      return writeMetric(payload);
+      return writeMetric(payload as Partial<MetricEntry>);
     case "settings_set":
-      return writeSettings(payload);
+      return writeSettings(payload as Partial<Settings>);
     default:
       return Promise.resolve({ ok: true, requestId: payload.request_id } as ApiAck);
   }
