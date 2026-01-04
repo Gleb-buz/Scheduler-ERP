@@ -8,7 +8,7 @@ import { useTheme } from "@/providers/theme-provider";
 import { useOutboxStore } from "@/store/outbox";
 import { useNetworkStatus } from "@/hooks/use-network";
 import { Bell, Circle, Menu } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
