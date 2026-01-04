@@ -1,8 +1,7 @@
 import { mockCall } from "@/api/mocks/handlers";
 
-// Default to the provided Apps Script deployment so the frontend works out of the box.
-const DEFAULT_BASE_URL =
-  "https://script.google.com/macros/s/AKfycbw1rqBmcDNBDCPTPpge5TW33QP2e199lCSOVQDvXsimTnFX7-5aH0bghj6MhLClzUh-yA/exec";
+// Use local serverless proxy by default to avoid CORS issues. Set NEXT_PUBLIC_BACKEND_BASE_URL to override.
+const DEFAULT_BASE_URL = "/api/backend";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL ?? DEFAULT_BASE_URL;
 const TIMEOUT = Number(process.env.NEXT_PUBLIC_BACKEND_TIMEOUT_MS ?? 15000);
