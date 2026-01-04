@@ -1,0 +1,15 @@
+export const queryKeys = {
+  status: ["status"] as const,
+  todayOverdue: ["today", "overdue"] as const,
+  today: ["today", "today"] as const,
+  weekLoad: ["week", "load"] as const,
+  weekTasks: (filters?: Record<string, unknown> | undefined) => ["week", "tasks", filters] as const,
+  tasks: (filters?: Record<string, unknown> | undefined) => ["tasks", filters] as const,
+  task: (id: string) => ["task", id] as const,
+  projects: ["projects"] as const,
+  metrics: (projectId: string) => ["metrics", projectId] as const,
+  daily: (filters?: Record<string, unknown> | undefined) => ["daily", filters] as const,
+  settings: ["settings"] as const,
+  requestLog: ["requestlog"] as const,
+  changedSince: (updatedAtSince: string) => ["tasks", "changes", updatedAtSince] as const,
+};

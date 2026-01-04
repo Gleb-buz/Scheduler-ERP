@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: 210 20% 98%;
+  --fg: 222 47% 11%;
+  --muted: 215 16% 76%;
+  --border: 214 32% 91%;
+  --card: 0 0% 100%;
+  --accent: 222 84% 60%;
+  --primary: 225 72% 50%;
+  --danger: 0 84% 63%;
+  --success: 142 72% 35%;
+}
+
+.dark {
+  --bg: 222 47% 7%;
+  --fg: 210 40% 96%;
+  --muted: 216 34% 35%;
+  --border: 215 25% 27%;
+  --card: 222 47% 9%;
+  --accent: 217 91% 60%;
+  --primary: 217 91% 60%;
+  --danger: 0 74% 60%;
+  --success: 145 63% 48%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  color: hsl(var(--fg));
+  background: hsl(var(--bg));
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid hsl(var(--accent));
+  outline-offset: 2px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: hsla(var(--muted), 0.5);
+  border-radius: 9999px;
+}
+
+@layer components {
+  .card {
+    @apply rounded-2xl border border-border bg-card shadow-soft;
+  }
+  .section-title {
+    @apply text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400;
+  }
+  .input {
+    @apply w-full rounded-xl border border-border bg-white/80 px-3 py-2 text-sm text-foreground shadow-inner transition focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:bg-slate-900;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/70;
+  }
+  .btn-primary {
+    @apply btn bg-primary text-white shadow hover:brightness-110;
+  }
+  .btn-ghost {
+    @apply btn bg-transparent text-foreground hover:bg-slate-100 dark:hover:bg-slate-800;
+  }
+  .badge {
+    @apply inline-flex items-center rounded-full border border-border px-2.5 py-1 text-xs font-medium text-foreground/80;
+  }
+}
