@@ -16,6 +16,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const { queue } = useOutboxStore();
   const online = useNetworkStatus();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // avoid SSR/CSR content mismatch for values that depend on client-only state
+  useEffect(() => setMounted(true), []);
 
   const navItems = [...NAV_ITEMS, DEBUG_ITEM];
 
@@ -48,18 +52,18 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <div className="text-lg font-semibold">ERP Planner</div>
             <div className="text-xs text-slate-500">Focus & Productivity</div>
           </div>
-          <span className={cn("flex items-center gap-1 text-xs", online ? "text-success" : "text-danger")}
-            aria-label={online ? "Online" : "Offline"}
+          <span className={cn("flex items-center gap-1 text-xs", mounted ? (online ? "text-success" : "text-danger") : "text-slate-400")}
+            aria-label={mounted ? (online ? "Online" : "Offline") : "Unknown"}
           >
-            <Circle className="h-3 w-3" fill={online ? "#16a34a" : "#dc2626"} />
-            {online ? "Online" : "Offline"}
+            <Circle className="h-3 w-3" fill={mounted ? (online ? "#16a34a" : "#dc2626") : "#9CA3AF"} />
+            {mounted ? (online ? "Online" : "Offline") : ""}
           </span>
         </div>
         <nav className="flex flex-1 flex-col gap-1">{navItems.map(renderNavItem)}</nav>
         <div className="mt-auto flex items-center justify-between rounded-2xl border border-border px-3 py-2 text-xs text-slate-600 dark:text-slate-300">
           <div>
             <div className="font-semibold">Outbox</div>
-            <div>{queue.length} операции</div>
+            <div>{mounted ? `${queue.length} операции` : "… операции"}</div>
           </div>
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="sm" onClick={() => window.location.assign("/debug")}>Debug</Button>
@@ -79,9 +83,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </button>
           <div className="text-base font-semibold">ERP Planner</div>
           <div className="ml-auto flex items-center gap-2 text-xs">
-            <span className={cn("flex items-center gap-1", online ? "text-success" : "text-danger")}>● {online ? "Online" : "Offline"}</span>
+            <span className={cn("flex items-center gap-1", mounted ? (online ? "text-success" : "text-danger") : "text-slate-400")}>● {mounted ? (online ? "Online" : "Offline") : ""}</span>
             <Button variant="outline" size="sm" onClick={toggle} aria-label="Toggle theme">
-              {theme === "dark" ? "Light" : "Dark"}
+              {mounted ? (theme === "dark" ? "Light" : "Dark") : "..."}
             </Button>
           </div>
         </header>
