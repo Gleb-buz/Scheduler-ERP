@@ -19,6 +19,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "ERP Planner",
   description: "ERP Planner front-end for Google Sheets backend",
+  icons: { icon: "/favicon.svg" },
 };
 
 export default function RootLayout({
