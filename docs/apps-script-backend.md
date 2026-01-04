@@ -166,4 +166,6 @@ function json(obj, status) {
 1. Откройте связанную с таблицей Apps Script и замените код на скрипт выше.
 2. Разверните как WebApp (Deploy → New deployment). Разрешите доступ Anyone with the link.
 3. Если нужен другой инстанс, замените Deployment ID/URL в `.env.local` (`VITE_BACKEND_BASE_URL`/`NEXT_PUBLIC_BACKEND_BASE_URL`).
+
+> ВНИМАНИЕ: В современных браузерах прямые запросы из фронта на `script.google.com` часто блокируются CORS-политикой (preflight без Access-Control-Allow-Origin), поэтому мы добавляем serverless-прокси `/api/backend` в frontend и рекомендуем настроить `BACKEND_TARGET_URL` в переменных окружения на Vercel (server-side) с URL вашего Apps Script. Это убирает CORS и делает запросы надёжными.
 4. Фронт начнёт работать сразу — без ручного редактирования листа. При несовпадении реального формата витрин подкорректируйте `readView/appendToBuffer` (локально в Apps Script) без изменений фронта.

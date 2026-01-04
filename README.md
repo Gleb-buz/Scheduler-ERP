@@ -20,14 +20,21 @@ npm run lint   # линтинг
 ```
 
 ### Переменные окружения
-Создайте `.env.local` (или используйте готовый `.env.local.example`) с боевым WebApp:
+Мы теперь используем локальный serverless-прокси `/api/backend` чтобы обходить CORS между фронтом и Apps Script в продакшне.
+
+- Для локальной разработки и продакшна можно не указывать `NEXT_PUBLIC_BACKEND_BASE_URL` — клиент по умолчанию будет обращаться в `/api/backend`.
+- На Vercel нужно задать **серверную** переменную `BACKEND_TARGET_URL` (Production / Preview) с URL вашего Apps Script WebApp (пример):
 ```
-NEXT_PUBLIC_BACKEND_BASE_URL=https://script.google.com/macros/s/AKfycbw1rqBmcDNBDCPTPpge5TW33QP2e199lCSOVQDvXsimTnFX7-5aH0bghj6MhLClzUh-yA/exec
+BACKEND_TARGET_URL=https://script.google.com/macros/s/<DEPLOYMENT_ID>/exec
+```
+- Если всё же хотите указать прямой URL в клиенте (не рекомендуется из-за CORS), можно задать `NEXT_PUBLIC_BACKEND_BASE_URL`.
+
+Дополнительные переменные:
+```
 NEXT_PUBLIC_BACKEND_TIMEOUT_MS=15000
 # NEXT_PUBLIC_BACKEND_CLIENT_ID=<опционально для трейсинга>
 ```
-Если переменная не указана, клиент работает в mock-режиме с локальными данными, но по умолчанию уже прописан рабочий URL, поэтом
-у моков можно вернуться, очистив переменную.
+Если переменная `NEXT_PUBLIC_BACKEND_BASE_URL` не указана, клиент использует proxied `/api/backend` по умолчанию.
 
 ## Архитектура
 - `src/api/client.ts` — тонкий fetch-wrapper с таймаутом + fallback на mock.
