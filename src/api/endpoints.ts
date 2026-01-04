@@ -92,7 +92,15 @@ export async function fetchDailyRange(filters?: Record<string, unknown>): Promis
 export async function fetchSettings(): Promise<Settings> {
   const data = await callApi("API_READ_SETTINGS");
   const parsed = settingsSchema.safeParse(data);
-  return parsed.success ? parsed.data : { focusDate: "" };
+  if (parsed.success) {
+    // normalize null -> undefined for fields to match `Settings` type
+    const s: Record<string, unknown> = { ...parsed.data };
+    Object.keys(s).forEach((k) => {
+      if ((s as any)[k] === null) (s as any)[k] = undefined;
+    });
+    return s as Settings;
+  }
+  return { focusDate: "" };
 }
 
 export async function fetchRequestLog(): Promise<RequestLog[]> {
