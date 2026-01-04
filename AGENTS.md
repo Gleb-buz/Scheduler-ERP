@@ -21,9 +21,10 @@
 Фронт НЕ ходит в Google Sheets API напрямую. Только в Apps Script WebApp.
 
 Рекомендуемые env-переменные:
-- `VITE_BACKEND_BASE_URL` — базовый URL WebApp, например:
+- `BACKEND_TARGET_URL` — **(server-side)** базовый URL Apps Script WebApp (устанавливать в Vercel):
   - `https://script.google.com/macros/s/<DEPLOYMENT_ID>/exec`
-- `VITE_BACKEND_TIMEOUT_MS` — таймаут запросов
+- `NEXT_PUBLIC_BACKEND_BASE_URL` — (опционально) клиентский override; по умолчанию фронт использует `/api/backend` (serverless proxy) чтобы избежать CORS.
+- `VITE_BACKEND_TIMEOUT_MS` / `NEXT_PUBLIC_BACKEND_TIMEOUT_MS` — таймаут запросов
 - `VITE_BACKEND_CLIENT_ID` — идентификатор клиента (опционально, для трейсинга)
 
 > Важно: конкретный DEPLOYMENT_ID храните в env, не хардкодьте в коде.
