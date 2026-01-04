@@ -43,7 +43,7 @@ async function persist(queue: OutboxItem[]) {
 }
 
 async function sendCommand(item: OutboxItem): Promise<ApiAck> {
-  const payload = withMeta(item.payload);
+  const payload = withMeta(item.payload) as Record<string, any>;
   switch (item.type) {
     case "task_upsert":
       return writeTaskUpsert(payload as Partial<Task>);
