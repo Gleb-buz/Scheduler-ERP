@@ -77,7 +77,11 @@ export async function fetchProjects(): Promise<Project[]> {
 export async function fetchMetricsByProject(projectId: string): Promise<MetricEntry[]> {
   const data = await callApi("API_READ_METRICS_BY_PROJECT", { projectId });
   const parsed = metricSchema.array().safeParse(data);
-  return parsed.success ? parsed.data : [];
+  if (parsed.success) {
+    // normalize 'notes' null -> undefined to match `MetricEntry` type
+    return parsed.data.map((d) => ({ ...d, notes: d.notes ?? undefined }));
+  }
+  return [];
 }
 
 export async function fetchDailyRange(filters?: Record<string, unknown>): Promise<WorklogEntry[]> {
