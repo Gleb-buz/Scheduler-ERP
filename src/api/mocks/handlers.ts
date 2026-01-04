@@ -63,7 +63,7 @@ export async function mockCall(op: string, payload?: Record<string, unknown>) {
       return { ok: true, requestId: payload?.requestId ?? crypto.randomUUID(), message: "updated" };
     }
     case "API_WRITE_FOCUSDATE": {
-      const date = payload?.focusDate ?? todayDateString();
+      const date = typeof payload?.focusDate === "string" ? (payload.focusDate as string) : todayDateString();
       mockSettings.focusDate = date;
       return { ok: true, requestId: payload?.requestId ?? crypto.randomUUID(), message: "focus updated" };
     }
